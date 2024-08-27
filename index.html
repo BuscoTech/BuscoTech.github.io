@@ -115,17 +115,67 @@ img {
 </head>
 <head>
 	<script>
-// Add event listener to navigation menu
-document.addEventListener("DOMContentLoaded", function() {
-	var nav = document.querySelector("nav");
-	nav.addEventListener("click", function(event) {
-		if (event.target.tagName === "A") {
-			event.preventDefault();
-			var sectionId = event.target.getAttribute("href");
-			var section = document.querySelector(sectionId);
-			section.scrollIntoView({ behavior: "smooth" });
-		}
-	});
+// Responsive navigation menu
+const navToggle = document.querySelector('.nav-toggle');
+const navMenu = document.querySelector('.nav-menu');
+
+navToggle.addEventListener('click', () => {
+  navMenu.classList.toggle('active');
+});
+
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({
+      behavior: 'smooth'
+    });
+  });
+});
+
+// Project modal with dynamic content
+const projectButtons = document.querySelectorAll('.project-button');
+const projectModal = document.querySelector('.project-modal');
+const projectContent = document.querySelector('.project-content');
+
+projectButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const projectData = button.dataset;
+    projectContent.innerHTML = `
+      <h2>${projectData.title}</h2>
+      <p>${projectData.description}</p>
+      <img src="${projectData.image}" alt="${projectData.title}">
+    `;
+    projectModal.classList.add('active');
+  });
+});
+
+projectModal.addEventListener('click', () => {
+  projectModal.classList.remove('active');
+});
+
+// Mobile-friendly image gallery
+const galleryImages = document.querySelectorAll('.gallery-image');
+
+galleryImages.forEach(image => {
+  image.addEventListener('click', () => {
+    const galleryModal = document.querySelector('.gallery-modal');
+    const galleryImage = document.querySelector('.gallery-image-modal');
+    galleryImage.src = image.src;
+    galleryModal.classList.add('active');
+  });
+});
+
+document.querySelector('.gallery-modal').addEventListener('click', () => {
+  document.querySelector('.gallery-modal').classList.remove('active');
+});
+
+// Dark mode toggle
+const darkModeToggle = document.querySelector('.dark-mode-toggle');
+const body = document.body;
+
+darkModeToggle.addEventListener('click', () => {
+  body.classList.toggle('dark-mode');
 });
 	</script>
 </head>
